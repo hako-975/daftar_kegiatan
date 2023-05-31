@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 08 Apr 2023 pada 10.27
--- Versi server: 10.4.25-MariaDB
--- Versi PHP: 8.1.10
+-- Waktu pembuatan: 31 Bulan Mei 2023 pada 15.19
+-- Versi server: 10.4.27-MariaDB
+-- Versi PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,17 +33,19 @@ CREATE TABLE `kegiatan` (
   `isi_kegiatan` text NOT NULL,
   `tenggat_waktu` datetime NOT NULL,
   `status` enum('belum','proses','selesai') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data untuk tabel `kegiatan`
+-- Struktur dari tabel `pengeluaran`
 --
 
-INSERT INTO `kegiatan` (`id_kegiatan`, `id_user`, `isi_kegiatan`, `tenggat_waktu`, `status`) VALUES
-(6, 3, 'maen', '2023-03-30 13:37:00', 'belum'),
-(13, 1, 'Baca Buku', '2023-04-08 11:00:00', 'selesai'),
-(14, 2, 'Ngoding', '2023-04-08 16:00:00', 'belum'),
-(15, 1, 'Ngerjain kp bab 3', '2023-04-08 20:00:00', 'belum');
+CREATE TABLE `pengeluaran` (
+  `id_pengeluaran` int(11) NOT NULL,
+  `pengeluaran` int(11) NOT NULL,
+  `id_kegiatan` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -56,16 +58,7 @@ CREATE TABLE `user` (
   `username` varchar(15) NOT NULL,
   `password` varchar(266) NOT NULL,
   `nama_lengkap` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `user`
---
-
-INSERT INTO `user` (`id_user`, `username`, `password`, `nama_lengkap`) VALUES
-(1, 'aldo', '$2y$10$ASJqXft2hErOAtyzuePZv.UeHoKjARIfJ8iiWDP/ntCrikYJfvu8W', 'Aldo Hermawan Suryana'),
-(2, 'andri', '$2y$10$0/SAGhVUBuuIDzIyyp6I8evOhx3vbqemlomZzzdTytSApDcbDTGI6', 'Andri Firman Saputra'),
-(3, 'roni', '$2y$10$SyCGW1ROWIQK/iznfx46N.sYdmjTw4f2I44hYUtyCQm8aUZEVEZBW', 'roni sefia');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
@@ -77,6 +70,13 @@ INSERT INTO `user` (`id_user`, `username`, `password`, `nama_lengkap`) VALUES
 ALTER TABLE `kegiatan`
   ADD PRIMARY KEY (`id_kegiatan`),
   ADD KEY `id_user` (`id_user`);
+
+--
+-- Indeks untuk tabel `pengeluaran`
+--
+ALTER TABLE `pengeluaran`
+  ADD PRIMARY KEY (`id_pengeluaran`),
+  ADD KEY `id_kegiatan` (`id_kegiatan`);
 
 --
 -- Indeks untuk tabel `user`
@@ -92,13 +92,35 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT untuk tabel `kegiatan`
 --
 ALTER TABLE `kegiatan`
-  MODIFY `id_kegiatan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_kegiatan` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `pengeluaran`
+--
+ALTER TABLE `pengeluaran`
+  MODIFY `id_pengeluaran` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+--
+
+--
+-- Ketidakleluasaan untuk tabel `kegiatan`
+--
+ALTER TABLE `kegiatan`
+  ADD CONSTRAINT `kegiatan_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `pengeluaran`
+--
+ALTER TABLE `pengeluaran`
+  ADD CONSTRAINT `pengeluaran_ibfk_1` FOREIGN KEY (`id_kegiatan`) REFERENCES `kegiatan` (`id_kegiatan`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
