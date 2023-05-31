@@ -33,6 +33,11 @@ body {
 	color: white;
 }
 
+.reset {
+  padding: 5px 10px!important;
+  margin-left: 10px;
+}
+
 .button {
 	background-color: #229F14;
 	border: 0px;
@@ -131,8 +136,8 @@ nav li.right {
   flex-direction: column;
   justify-content: space-between;
   width: 350px;
-  background-color: #ac3f21;
-  border-radius: 20px;
+  background-color: #333333;
+  border-radius: 10px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   margin: 20px 0;
@@ -143,6 +148,13 @@ nav li.right {
   font-size: 16px;
   text-align: justify;
   color: white;
+}
+
+.card-pengeluaran {
+  padding: 0 20px;
+  font-size: 16px;
+  text-align: justify;
+  color: white; 
 }
 
 .card-deadline {
@@ -156,8 +168,8 @@ nav li.right {
 
 .card-status {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 15px;
+  right: 20px;
   padding: 5px 10px;
   background-color: #3498db;
   color: #fff;
@@ -166,22 +178,9 @@ nav li.right {
   text-decoration: none;
 }
 
-.card-actions {
-  display: flex;
-  align-items: right;
-  justify-content: right;
-  padding: 10px;
-}
-
-.card-actions a {
-  margin: 0 10px;
-  padding: 5px 10px;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-  text-decoration: none;
+.padding-y-20 {
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .bg-red-card {
@@ -219,3 +218,32 @@ nav li.right {
   margin-right: 0;
 }
 
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.col {
+  margin-right: 20px;
+  flex: flex: 1 0 0%;
+}
+
+.col:last-child {
+  margin-right: 0;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.form-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.form-input {
+  margin-right: 10px;
+}

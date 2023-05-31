@@ -9,14 +9,17 @@ $id_user = $_SESSION['id_user'];
 $data_user = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM user WHERE id_user = '$id_user'"));
 
 $id_kegiatan = $_GET['id_kegiatan'];
-$data = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM kegiatan WHERE id_kegiatan = '$id_kegiatan' AND id_user = '$id_user'"));
+$data = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM kegiatan INNER JOIN pengeluaran ON kegiatan.id_kegiatan = pengeluaran.id_kegiatan WHERE kegiatan.id_kegiatan = '$id_kegiatan' AND id_user = '$id_user'"));
 if (isset($_POST['btnUbah'])) {
 	$isi_kegiatan = nl2br($_POST['isi_kegiatan']);
 	$tenggat_waktu = $_POST['tenggat_waktu'];
 	$status = $_POST['status'];
+	$pengeluaran = $_POST['pengeluaran'];
 
 	$ubah_kegiatan = mysqli_query($koneksi, "UPDATE kegiatan SET isi_kegiatan = '$isi_kegiatan', tenggat_waktu = '$tenggat_waktu', status = '$status' WHERE id_kegiatan = '$id_kegiatan' AND id_user='$id_user'");
 	if ($ubah_kegiatan) {
+		$ubah_pengeluaran = mysqli_query($koneksi, "UPDATE pengeluaran SET pengeluaran = '$pengeluaran' WHERE id_kegiatan = '$id_kegiatan'");
+
 		echo "
 			<script>
 				alert('kegiatan berhasil diubah!')
@@ -68,6 +71,10 @@ if (isset($_POST['btnUbah'])) {
 			<div class="form-group">
 				<label for="tenggat_waktu" class="form-label">Tenggat Waktu</label>
 				<input type="datetime-local" name="tenggat_waktu" id="tenggat_waktu" class="form-input" required value="<?= $data['tenggat_waktu']; ?>">
+			</div>
+			<div class="form-group">
+				<label for="pengeluaran" class="form-label">Pengeluaran yang digunakan (Rp.)</label>
+				<input type="number" name="pengeluaran" id="pengeluaran" class="form-input" required value="<?= $data['pengeluaran']; ?>">
 			</div>
 			<div class="form-group">
 				<label for="status" class="form-label">Status</label>

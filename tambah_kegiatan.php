@@ -11,10 +11,14 @@ $data_user = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM user WHERE
 if (isset($_POST['btnTambah'])) {
 	$isi_kegiatan = nl2br($_POST['isi_kegiatan']);
 	$tenggat_waktu = $_POST['tenggat_waktu'];
+	$pengeluaran = $_POST['pengeluaran'];
 
 	$tambah_kegiatan = mysqli_query($koneksi, "INSERT INTO kegiatan VALUES ('', '$id_user', '$isi_kegiatan', '$tenggat_waktu', 'belum')");
 
 	if ($tambah_kegiatan) {
+		$id_kegiatan = mysqli_insert_id($koneksi);
+		$tambah_pengeluaran = mysqli_query($koneksi, "INSERT INTO pengeluaran VALUES ('', '$pengeluaran', '$id_kegiatan')");
+
 		echo "
 			<script>
 				alert('kegiatan berhasil ditambahkan!')
@@ -66,6 +70,10 @@ if (isset($_POST['btnTambah'])) {
 			<div class="form-group">
 				<label for="tenggat_waktu" class="form-label">Tenggat Waktu</label>
 				<input type="datetime-local" name="tenggat_waktu" id="tenggat_waktu" class="form-input" required value="<?= date('Y-m-d H:i'); ?>">
+			</div>
+			<div class="form-group">
+				<label for="pengeluaran" class="form-label">Pengeluaran yang digunakan (Rp.)</label>
+				<input type="number" name="pengeluaran" id="pengeluaran" class="form-input" required>
 			</div>
 			<div class="form-group">
 				<button type="submit" name="btnTambah" class="button">Tambah</button>
